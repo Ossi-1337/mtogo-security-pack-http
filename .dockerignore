@@ -1,0 +1,14 @@
+**/bin
+**/obj
+**/.vs
+**/.idea
+**/.vscode
+**/*.user
+**/*.suo
+**/*.swp
+.git
+.gitignore
+.github
+.k8s
+k8s
+*.md

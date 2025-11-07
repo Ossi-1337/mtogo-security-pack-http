@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MToGo.Api", "src\MToGo.Api\MToGo.Api.csproj", "{1AC4ED07-7EE1-4C39-A7A4-67D0B1FDE307}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MToGo.Api.Tests", "tests\MToGo.Api.Tests\MToGo.Api.Tests.csproj", "{9007F4CB-65D8-4C6E-B564-BF9C943DCC61}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1AC4ED07-7EE1-4C39-A7A4-67D0B1FDE307}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AC4ED07-7EE1-4C39-A7A4-67D0B1FDE307}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AC4ED07-7EE1-4C39-A7A4-67D0B1FDE307}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AC4ED07-7EE1-4C39-A7A4-67D0B1FDE307}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9007F4CB-65D8-4C6E-B564-BF9C943DCC61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9007F4CB-65D8-4C6E-B564-BF9C943DCC61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9007F4CB-65D8-4C6E-B564-BF9C943DCC61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9007F4CB-65D8-4C6E-B564-BF9C943DCC61}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {879E663F-7953-4D28-A669-CD0826875800}
+	EndGlobalSection
+EndGlobal

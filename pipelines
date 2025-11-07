@@ -1,0 +1,10 @@
+## .github/workflows/security.yml
+Single workflow that **blocks merges** unless everything is green. Runs on PRs and pushes to `main`. Jobs:
+- **build_test** – restore, build (warnings as errors), run tests.
+- **codeql** – CodeQL static analysis for C#; uploads results to the Security tab.
+- **gitleaks** – scans repo for committed secrets; fails on findings.
+- **trivy_fs** – scans source tree for vulnerable packages/binaries; fails on HIGH/CRITICAL; uploads SARIF.
+- **docker_build_scan** – builds the container and scans it with Trivy; fails on HIGH/CRITICAL; uploads SARIF.
+
+## .github/dependabot.yml
+Enables **weekly** dependency PRs for **NuGet**, **Docker**, and **GitHub Actions** to keep the supply chain fresh.

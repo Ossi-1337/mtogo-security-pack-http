@@ -1,0 +1,85 @@
+name: Security & Quality Gates
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  build_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Restore
+        run: dotnet restore
+      - name: Build (treat warnings as errors)
+        run: dotnet build -warnaserror -c Release --no-restore
+      - name: Test
+        run: dotnet test -c Release --no-build --logger "trx;LogFileName=test-results.trx"
+
+  codeql:
+    needs: build_test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: csharp
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+  gitleaks:
+    needs: build_test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Gitleaks scan
+        uses: gitleaks/gitleaks-action@v2
+        with:
+          args: detect --config=.gitleaks.toml --no-banner --redact --verbose --exit-code 1
+
+  trivy_fs:
+    needs: build_test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Trivy FS scan (HIGH/CRITICAL fail)
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          scan-type: fs
+          format: sarif
+          output: trivy-fs.sarif
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
+      - uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-fs.sarif
+
+  docker_build_scan:
+    needs: build_test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t mtogo:${{ github.sha }} .
+      - name: Trivy image scan (HIGH/CRITICAL fail)
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          image-ref: mtogo:${{ github.sha }}
+          format: sarif
+          output: trivy-image.sarif
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
+      - uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-image.sarif
