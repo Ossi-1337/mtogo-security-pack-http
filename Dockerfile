@@ -6,7 +6,7 @@ RUN dotnet restore
 RUN dotnet publish ./src/MToGo.Api/MToGo.Api.csproj -c Release -o /app/publish
 
 # ---- runtime ----
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
 ENV ASPNETCORE_URLS=http://0.0.0.0:8080
 WORKDIR /app
 COPY --from=build /app/publish .
