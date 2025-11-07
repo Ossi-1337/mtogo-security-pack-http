@@ -15,7 +15,7 @@ jobs:
   build_test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
@@ -30,7 +30,7 @@ jobs:
     needs: build_test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
@@ -44,7 +44,7 @@ jobs:
     needs: build_test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Gitleaks scan
         uses: gitleaks/gitleaks-action@v2
         with:
@@ -54,7 +54,7 @@ jobs:
     needs: build_test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Trivy FS scan (HIGH/CRITICAL fail)
         uses: aquasecurity/trivy-action@0.24.0
         with:
@@ -71,7 +71,7 @@ jobs:
     needs: build_test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Build image
         run: docker build -t mtogo:${{ github.sha }} .
       - name: Trivy image scan (HIGH/CRITICAL fail)
