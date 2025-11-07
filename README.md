@@ -1,8 +1,33 @@
+Notes:
+- K8s not tested
+- Code just for demo purposes, not real that good.
+- Mostly focused on workflow/security and dependabot.yml
+   - 1. For code scanning to work, we needed to have ether:
+       - a. Public repositories on GitHub.com
+       - b. Organization-owned repositories on GitHub Team with GitHub Code Security enabled
+
+       source: https://docs.github.com/en/code-security/code-scanning/enabling-code-scanning
+
+      ![alt text](image.png)
+
+      ![alt text](image-1.png)
+- There is no branch protection rules right now, but the real repo should Protect main and require all jobs (build_test, codeql, gitleaks, trivy_fs, docker_build_scan) green to merge.
+- The local run instructions dont work 100%, so dont expect them to work
+
 # MToGo — Security Automation Pack (HTTP-friendly local)
 
 This repo is a minimal .NET 8 Web API wired with **automatic security gates** for exams/demos:
 
-- GitHub Actions: build+tests, **CodeQL**, **Trivy (fs + image)**, **Gitleaks** gate all merges.
+- GitHub Actions: 
+   - Push or open a Pull Request and GitHub Actions runs:
+      - **build_test** – build + test (warnings as errors)
+      - **codeql** – static analysis (C#)
+      - **gitleaks** – secrets scanning
+      - **trivy_fs** – filesystem vulnerability scan
+      - **docker_build_scan** – build container and scan image
+
+      > Protect `main` and require all jobs green to merge.
+
 - Containers: multi-stage **non-root** image.
 - Kubernetes: Deployment with liveness/readiness, resource limits; HTTPS Ingress with HSTS (prod), and **HTTP-only dev Ingress**.
 - API defenses: JWT auth, ownership policy (prevents IDOR), **rate limiting**, **strict JSON** (unknown fields → 400), security headers.
@@ -96,16 +121,6 @@ This repo is a minimal .NET 8 Web API wired with **automatic security gates** fo
 
 ---
 
-## CI/CD
-
-- Push or open a Pull Request and GitHub Actions runs:
-  - **build_test** – build + test (warnings as errors)
-  - **codeql** – static analysis (C#)
-  - **gitleaks** – secrets scanning
-  - **trivy_fs** – filesystem vulnerability scan
-  - **docker_build_scan** – build container and scan image
-
-> Protect `main` and require all jobs green to merge.
 
 ---
 
